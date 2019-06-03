@@ -13,7 +13,8 @@ public class Runnable {
         HashMap<String, Boolean> testCases = new HashMap<>();
         testCases.put("N(1,2)", true);
         testCases.put("N(2,1)", true);
-        PieceFactory pF = new PieceFactory(2);
+        testCases.put("K(1,-1)", true);
+        PieceFactory pF = new PieceFactory(2, true);
         Game g = new Game(2);
 
         final double[] good = {0};
@@ -37,13 +38,13 @@ public class Runnable {
                     break;
             }
             try {
-                assert p.checkValidMove(s, g) == b;
+                assert p.checkValidMove(g.getDestCoords(g.tokeize(s)), g) == b;
                 good[0]++;
             }catch(AssertionError e){
                 System.err.println("Error on input \""+s+"\".  Expected Output: "+b);
             }
         });
-        System.out.println("Test cases completed.  "+good[0]/testCases.size()*100+"% Success.");
+        System.out.println("Test cases completed.  "+Math.round(good[0]/testCases.size()*1000)/10.+"% Success.");
         System.out.println("Enter moves to check validity. [ENTER] to quit.");
         String in =  null;
         while(!(in = sc.nextLine()).equals("")){
@@ -65,7 +66,7 @@ public class Runnable {
                     p = pF.createPiece(PieceType.QUEEN);
                     break;
             }
-            System.out.println(p.checkValidMove(in, g));
+            System.out.println(p.checkValidMove(g.getDestCoords(g.tokeize(in)), g));
         }
     }
 }

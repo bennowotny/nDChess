@@ -9,6 +9,10 @@ public enum PieceType {
     public static final int BITS_KNGT = 0b00010;
     public static final int BITS_PAWN = 0b00001;
 
+    interface TypeIterator{
+        void forEach(PieceType t);
+    }
+
     public int getLogicalValue(){
         switch(this){
             case KING:
@@ -25,5 +29,11 @@ public enum PieceType {
                 return 0b00001;
         }
         return -1;
+    }
+
+    public static void forEach(TypeIterator t){
+        t.forEach(PieceType.KING);
+        t.forEach(PieceType.QUEEN);
+        t.
     }
 }
