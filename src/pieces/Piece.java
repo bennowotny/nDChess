@@ -43,18 +43,16 @@ public class Piece {
         boolean retVal = true;
         if ((type.getLogicalValue() & PieceType.BITS_DIAG) == PieceType.BITS_DIAG) { //DIAGONAL logic
             int d1d = -1;
-            boolean diag_check = false;
             for (int i = 0; i < delta.length; i++) {
                 if (d1d == -1 && delta[i] != 0) {
                     d1d = Math.abs(delta[i]);
                     continue;
                 }
-                if (d1d != -1 && delta[i] != 0 && delta[i] != d1d) {
+                if (d1d != -1 && delta[i] != d1d) {
                     retVal = false;
                     break;
-                } else if (delta[i] == d1d) diag_check = true;
+                }
             }
-            retVal &= diag_check;
         } else return false;
         return retVal;
     }
