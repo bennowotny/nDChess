@@ -19,10 +19,11 @@ public class Piece {
         return coords;
     }
 
-    public void setCoords(int[] coords) {
+    public Piece setCoords(int[] coords) {
         if (coords.length != this.coords.length)
             throw new IllegalArgumentException("Inconsistent dimensionality, should be " + this.coords.length + " dimension.");
         this.coords = coords;
+        return this;
     }
 
     public PieceType getType() {
@@ -109,9 +110,19 @@ public class Piece {
     public boolean checkValidMove(int[] delta, Game g) {
         if (delta.length != coords.length)
             throw new IllegalArgumentException("Invalid dimensionality, should be " + coords.length + " dimension.");
-        int moveAlignment = ((checkKing(delta, g) ? 1 : 0) << 4) & ((checkDiagonal(delta, g) ? 1 : 0) << 3) & ((checkSide(delta, g) ? 1 : 0) << 2) & ((checkKnight(delta, g) ? 1 : 0) << 1) & (checkPawn(delta, g) ? 1 : 0);
-
-        return false;
+        final int moveAlignment = ((checkKing(delta, g) ? 1 : 0) << 4) | ((checkDiagonal(delta, g) ? 1 : 0) << 3) | ((checkSide(delta, g) ? 1 : 0) << 2) | ((checkKnight(delta, g) ? 1 : 0) << 1) | (checkPawn(delta, g) ? 1 : 0);
+        final boolean[] b = {false};
+        PieceType.forEach((t)->{
+            boolean x = (moveAlignment&t.getLogicalValue())==t.getLogicalValue();
+            b[0]^=x;
+        });
+        if(b[0]){
+            for(int i = 0; i < coords.length; i++){
+                coords[i]+=delta[i];
+            }
+            hasMoved = true;
+        }
+        return b[0];
     }
 
 }

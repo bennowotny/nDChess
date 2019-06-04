@@ -14,6 +14,9 @@ public class Runnable {
         testCases.put("N(1,2)", true);
         testCases.put("N(2,1)", true);
         testCases.put("K(1,-1)", true);
+        testCases.put("B(5,5)", true);
+        testCases.put("B(-3,3)", true);
+        testCases.put("R(0,5)", true);
         PieceFactory pF = new PieceFactory(2, true);
         Game g = new Game(2);
 
@@ -32,6 +35,9 @@ public class Runnable {
                     break;
                 case "B":
                     p = pF.createPiece(PieceType.BISHOP);
+                    break;
+                case "R":
+                    p = pF.createPiece(PieceType.ROOK);
                     break;
                 case "Q":
                     p = pF.createPiece(PieceType.QUEEN);
@@ -61,6 +67,9 @@ public class Runnable {
                     break;
                 case "B":
                     p = pF.createPiece(PieceType.BISHOP);
+                    break;
+                case "R":
+                    p = pF.createPiece(PieceType.ROOK);
                     break;
                 case "Q":
                     p = pF.createPiece(PieceType.QUEEN);

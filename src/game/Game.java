@@ -1,6 +1,8 @@
 package game;
 
 import pieces.Piece;
+import pieces.PieceFactory;
+import pieces.PieceType;
 
 import java.util.Arrays;
 
@@ -23,8 +25,24 @@ public class Game {
         return board[ind];
     }
 
+    public void placePiece(PieceFactory pF, PieceType t, int[] coords){
+        int ind = 0;
+        for(int i = 0; i<coords.length; i++){
+            ind += coords[i]*Math.pow(8,i);
+        }
+        board[ind] = pF.createPiece(t).setCoords(coords);
+    }
+
+    public void placePiece(PieceFactory pF, PieceType t, boolean alliance, int[] coords){
+        int ind = 0;
+        for(int i = 0; i<coords.length; i++){
+            ind += coords[i]*Math.pow(8,i);
+        }
+        board[ind] = pF.createPiece(t,alliance).setCoords(coords);
+    }
+
     public Object[] tokeize(String query){
-        String[] st = query.replaceAll("(\\s|\\))","").split("(\\(|,)");
+        String[] st = query.replaceAll("(\\s|\\)|-|x)","").split("(\\(|,)");
         Object[] tokens = new Object[st.length];
         tokens[0] = st[0];
         for(int i = 1; i < tokens.length; i++) tokens[i] = Integer.parseInt(st[i]);
@@ -34,7 +52,27 @@ public class Game {
     public int[] getDestCoords(Object[] tokens){
         Object[] tkncoords = Arrays.copyOfRange(tokens,1, tokens.length);
         int[] coords = new int[tkncoords.length];
-        for(int i = 0; i < tkncoords.length; i++) coords[i] = (int) tkncoords[i];
+        for(int i = n; i < tkncoords.length; i++) coords[i] = (int) tkncoords[i];
         return coords;
+    }
+
+    public int[] getStartCoords(Object[] tokens){
+        Object[] tkncoords = Arrays.copyOfRange(tokens,1, tokens.length);
+        int[] coords = new int[tkncoords.length];
+        for(int i = 0; i < n; i++) coords[i] = (int) tkncoords[i];
+        return coords;
+    }
+
+    public int[] getDelta(Object[] tokens){
+        int[] s = getStartCoords(tokens);
+        int[] e = getDestCoords(tokens);
+        int[] delta = new int[n];
+        for(int i = 0; i < s.length; i++)delta[i] = e[i]-s[i];
+        return delta;
+    }
+
+    public boolean movePiece(String query){
+        
+        return false;
     }
 }

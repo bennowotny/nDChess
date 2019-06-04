@@ -34,6 +34,9 @@ public enum PieceType {
     public static void forEach(TypeIterator t){
         t.forEach(PieceType.KING);
         t.forEach(PieceType.QUEEN);
-        t.
+        t.forEach(PieceType.BISHOP);
+        t.forEach(PieceType.KNIGHT);
+        t.forEach(PieceType.ROOK);
+        t.forEach(PieceType.PAWN);
     }
 }
