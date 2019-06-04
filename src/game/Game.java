@@ -51,14 +51,14 @@ public class Game {
 
     public int[] getDestCoords(Object[] tokens){
         Object[] tkncoords = Arrays.copyOfRange(tokens,1, tokens.length);
-        int[] coords = new int[tkncoords.length];
-        for(int i = n; i < tkncoords.length; i++) coords[i] = (int) tkncoords[i];
+        int[] coords = new int[n];
+        for(int i = n; i < tkncoords.length; i++) coords[i-n] = (int) tkncoords[i];
         return coords;
     }
 
     public int[] getStartCoords(Object[] tokens){
         Object[] tkncoords = Arrays.copyOfRange(tokens,1, tokens.length);
-        int[] coords = new int[tkncoords.length];
+        int[] coords = new int[n];
         for(int i = 0; i < n; i++) coords[i] = (int) tkncoords[i];
         return coords;
     }

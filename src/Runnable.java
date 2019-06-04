@@ -11,12 +11,15 @@ public class Runnable {
         Scanner sc = new Scanner(System.in);
         System.out.println("Running standard checks...");
         HashMap<String, Boolean> testCases = new HashMap<>();
-        testCases.put("N(1,2)", true);
-        testCases.put("N(2,1)", true);
-        testCases.put("K(1,-1)", true);
-        testCases.put("B(5,5)", true);
-        testCases.put("B(-3,3)", true);
-        testCases.put("R(0,5)", true);
+        testCases.put("N(0,0)-(1,2)", true);
+        testCases.put("N(0,0)-(2,1)", true);
+        testCases.put("K(0,0)-(1,-1)", true);
+        testCases.put("B(0,0)-(5,5)", true);
+        testCases.put("B(0,0)-(-3,3)", true);
+        testCases.put("R(0,0)-(0,5)", true);
+        testCases.put("Q(0,0)-(5,5)", true);
+        testCases.put("Q(0,0)-(-3,3)", true);
+        testCases.put("Q(0,0)-(0,5)", true);
         PieceFactory pF = new PieceFactory(2, true);
         Game g = new Game(2);
 
@@ -44,7 +47,7 @@ public class Runnable {
                     break;
             }
             try {
-                assert p.checkValidMove(g.getDestCoords(g.tokeize(s)), g) == b;
+                assert p.checkValidMove(g.getDelta(g.tokeize(s)), g) == b;
                 good[0]++;
             }catch(AssertionError e){
                 System.err.println("Error on input \""+s+"\".  Expected Output: "+b);
@@ -75,7 +78,7 @@ public class Runnable {
                     p = pF.createPiece(PieceType.QUEEN);
                     break;
             }
-            System.out.println(p.checkValidMove(g.getDestCoords(g.tokeize(in)), g));
+            System.out.println(p.checkValidMove(g.getDelta(g.tokeize(in)), g));
         }
     }
 }
