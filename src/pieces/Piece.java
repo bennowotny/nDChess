@@ -2,6 +2,9 @@ package pieces;
 
 import game.Game;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class Piece {
 
     private int[] coords;
@@ -30,15 +33,23 @@ public class Piece {
         return type;
     }
 
+    private int[] generateNewPos(int[] delta){
+        int[] cN = new int[coords.length];
+        for(int i = 0; i < coords.length; i++)cN[i] = coords[i] + delta[i];
+        return cN;
+    }
+
     //TODO: Add collision and en passent logic
     //TODO: GENERAL FIXING AND FINISHING
     //TODO: Separate each check
 
     private boolean checkKing(int[] delta, Game g) {
         boolean retVal = true;
-        if ((type.getLogicalValue() & PieceType.BITS_KING) == PieceType.BITS_KING) //KING logic
+        if ((type.getLogicalValue() & PieceType.BITS_KING) == PieceType.BITS_KING) { //KING logic
             for (int i = 0; i < delta.length; i++) retVal &= Math.abs(delta[i]) == 1;
-        else return false;
+            if(retVal)
+                if(g.getPiece(generateNewPos(delta)) != null && g.getPiece(generateNewPos(delta)).alliance == alliance)return false;
+        }else return false;
         return retVal;
     }
 
@@ -56,6 +67,17 @@ public class Piece {
                     break;
                 }
             }
+            int[] D = new int[delta.length];
+            for(int i = 0; i < delta.length; i++){
+                D[i] = delta[i] == 0 ? 0 : delta[i]/Math.abs(delta[i]);
+            }
+            int[] checkCoords = Arrays.copyOf(coords, coords.length);
+            while(!Arrays.equals(checkCoords, generateNewPos(delta))){
+                for(int i = 0; i < checkCoords.length; i++){
+                    checkCoords[i] += D[i];
+                }
+                if(g.getPiece(checkCoords) != null) return false;
+            }
         } else return false;
         return retVal;
     }
@@ -68,6 +90,17 @@ public class Piece {
                 if (delta[i] != 0) side_check--;
             }
             retVal = side_check == 0;
+            int[] D = new int[delta.length];
+            for(int i = 0; i < delta.length; i++){
+                D[i] = delta[i] == 0 ? 0 : delta[i]/Math.abs(delta[i]);
+            }
+            int[] checkCoords = Arrays.copyOf(coords, coords.length);
+            while(!Arrays.equals(checkCoords, generateNewPos(delta))){
+                for(int i = 0; i < checkCoords.length; i++){
+                    checkCoords[i] += D[i];
+                }
+                if(g.getPiece(checkCoords) != null) return false;
+            }
         } else return false;
         return retVal;
     }
@@ -82,6 +115,8 @@ public class Piece {
                 else if ((two || one) && delta[i] != 0 || Math.abs(delta[i]) > 2) return false;
             }
             retVal = two & one;
+            if(retVal)
+                if(g.getPiece(generateNewPos(delta)) != null && g.getPiece(generateNewPos(delta)).alliance == alliance)return false;
         } else return false;
         return retVal;
     }

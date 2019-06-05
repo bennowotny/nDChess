@@ -11,6 +11,7 @@ public class Game {
     private Piece[] board;
     private int n;
 
+
     public Game(int n){
         board = new Piece[(int)Math.pow(8,n)];
         this.n = n;
@@ -43,21 +44,22 @@ public class Game {
 
     public Object[] tokeize(String query){
         String[] st = query.replaceAll("(\\s|\\)|-|x)","").split("(\\(|,)");
-        Object[] tokens = new Object[st.length];
+        Object[] tokens = new Object[st.length+1];
         tokens[0] = st[0];
-        for(int i = 1; i < tokens.length; i++) tokens[i] = Integer.parseInt(st[i]);
+        tokens[1] = query.contains("x");
+        for(int i = 2; i < tokens.length; i++) tokens[i] = Integer.parseInt(st[i-1]);
         return tokens;
     }
 
     public int[] getDestCoords(Object[] tokens){
-        Object[] tkncoords = Arrays.copyOfRange(tokens,1, tokens.length);
+        Object[] tkncoords = Arrays.copyOfRange(tokens,2, tokens.length);
         int[] coords = new int[n];
         for(int i = n; i < tkncoords.length; i++) coords[i-n] = (int) tkncoords[i];
         return coords;
     }
 
     public int[] getStartCoords(Object[] tokens){
-        Object[] tkncoords = Arrays.copyOfRange(tokens,1, tokens.length);
+        Object[] tkncoords = Arrays.copyOfRange(tokens,2, tokens.length);
         int[] coords = new int[n];
         for(int i = 0; i < n; i++) coords[i] = (int) tkncoords[i];
         return coords;
