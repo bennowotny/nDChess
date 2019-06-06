@@ -26,7 +26,7 @@ public class Runnable {
         final double[] good = {0};
         testCases.forEach((s, b)->{
             Piece p = null;
-            switch((String)g.tokeize(s)[0]){
+            switch((String)g.tokenize(s)[0]){
                 case "":
                     p = pF.createPiece(PieceType.PAWN);
                     break;
@@ -47,7 +47,8 @@ public class Runnable {
                     break;
             }
             try {
-                assert p.checkValidMove(g.getDelta(g.tokeize(s)), g) == b;
+                p.setCoords(g.getStartCoords(g.tokenize(s)));
+                assert p.checkValidMove(g.getDelta(g.tokenize(s)), g) == b;
                 good[0]++;
             }catch(AssertionError e){
                 System.err.println("Error on input \""+s+"\".  Expected Output: "+b);
@@ -56,9 +57,10 @@ public class Runnable {
         System.out.println("Test cases completed.  "+Math.round(good[0]/testCases.size()*1000)/10.+"% Success.");
         System.out.println("Enter moves to check validity. [ENTER] to quit.");
         String in =  null;
+        g.placePiece(pF, PieceType.PAWN, false, new int[] {3,2});
         while(!(in = sc.nextLine()).equals("")){
             Piece p = null;
-            switch((String)g.tokeize(in)[0]){
+            switch((String)g.tokenize(in)[0]){
                 case "":
                     p = pF.createPiece(PieceType.PAWN);
                     break;
@@ -78,7 +80,8 @@ public class Runnable {
                     p = pF.createPiece(PieceType.QUEEN);
                     break;
             }
-            System.out.println(p.checkValidMove(g.getDelta(g.tokeize(in)), g));
+            p.setCoords(g.getStartCoords(g.tokenize(in)));
+            System.out.println(p.checkValidMove(g.getDelta(g.tokenize(in)), g));
         }
     }
 }

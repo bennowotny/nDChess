@@ -42,7 +42,7 @@ public class Game {
         board[ind] = pF.createPiece(t,alliance).setCoords(coords);
     }
 
-    public Object[] tokeize(String query){
+    public Object[] tokenize(String query){
         String[] st = query.replaceAll("(\\s|\\)|-|x)","").split("(\\(|,)");
         Object[] tokens = new Object[st.length+1];
         tokens[0] = st[0];

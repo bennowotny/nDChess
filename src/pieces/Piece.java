@@ -67,16 +67,18 @@ public class Piece {
                     break;
                 }
             }
-            int[] D = new int[delta.length];
-            for(int i = 0; i < delta.length; i++){
-                D[i] = delta[i] == 0 ? 0 : delta[i]/Math.abs(delta[i]);
-            }
-            int[] checkCoords = Arrays.copyOf(coords, coords.length);
-            while(!Arrays.equals(checkCoords, generateNewPos(delta))){
-                for(int i = 0; i < checkCoords.length; i++){
-                    checkCoords[i] += D[i];
+            if(retVal) {
+                int[] D = new int[delta.length];
+                for (int i = 0; i < delta.length; i++) {
+                    D[i] = delta[i] == 0 ? 0 : delta[i] / Math.abs(delta[i]);
                 }
-                if(g.getPiece(checkCoords) != null) return false;
+                int[] checkCoords = Arrays.copyOf(coords, coords.length);
+                while (!Arrays.equals(checkCoords, generateNewPos(delta))) {
+                    for (int i = 0; i < checkCoords.length; i++) {
+                        checkCoords[i] += D[i];
+                    }
+                    if (g.getPiece(checkCoords) != null) return false;
+                }
             }
         } else return false;
         return retVal;
@@ -90,16 +92,18 @@ public class Piece {
                 if (delta[i] != 0) side_check--;
             }
             retVal = side_check == 0;
-            int[] D = new int[delta.length];
-            for(int i = 0; i < delta.length; i++){
-                D[i] = delta[i] == 0 ? 0 : delta[i]/Math.abs(delta[i]);
-            }
-            int[] checkCoords = Arrays.copyOf(coords, coords.length);
-            while(!Arrays.equals(checkCoords, generateNewPos(delta))){
-                for(int i = 0; i < checkCoords.length; i++){
-                    checkCoords[i] += D[i];
+            if(retVal) {
+                int[] D = new int[delta.length];
+                for (int i = 0; i < delta.length; i++) {
+                    D[i] = delta[i] == 0 ? 0 : delta[i] / Math.abs(delta[i]);
                 }
-                if(g.getPiece(checkCoords) != null) return false;
+                int[] checkCoords = Arrays.copyOf(coords, coords.length);
+                while (!Arrays.equals(checkCoords, generateNewPos(delta))) {
+                    for (int i = 0; i < checkCoords.length; i++) {
+                        checkCoords[i] += D[i];
+                    }
+                    if (g.getPiece(checkCoords) != null) return false;
+                }
             }
         } else return false;
         return retVal;
