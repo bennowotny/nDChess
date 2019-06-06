@@ -57,7 +57,6 @@ public class Runnable {
         System.out.println("Test cases completed.  "+Math.round(good[0]/testCases.size()*1000)/10.+"% Success.");
         System.out.println("Enter moves to check validity. [ENTER] to quit.");
         String in =  null;
-        g.placePiece(pF, PieceType.PAWN, false, new int[] {3,2});
         while(!(in = sc.nextLine()).equals("")){
             Piece p = null;
             switch((String)g.tokenize(in)[0]){

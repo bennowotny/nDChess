@@ -4,6 +4,7 @@ import pieces.Piece;
 import pieces.PieceFactory;
 import pieces.PieceType;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.Arrays;
 
 public class Game {
@@ -42,6 +43,20 @@ public class Game {
         board[ind] = pF.createPiece(t,alliance).setCoords(coords);
     }
 
+    public void movePiece(int[] startCoords, int[] endCoords){
+        int ind = 0;
+        Piece temp;
+        for(int i = 0; i<startCoords.length; i++){
+            ind += endCoords[i]*Math.pow(8,i);
+        }
+        temp = board[ind];
+        board[ind] = null;
+        for(int i = 0; i<endCoords.length; i++){
+            ind += endCoords[i]*Math.pow(8,i);
+        }
+        board[ind] = temp;
+    }
+
     public Object[] tokenize(String query){
         String[] st = query.replaceAll("(\\s|\\)|-|x)","").split("(\\(|,)");
         Object[] tokens = new Object[st.length+1];
@@ -74,7 +89,14 @@ public class Game {
     }
 
     public boolean movePiece(String query){
-        
+        Object[] tokens = tokenize(query);
+        Piece p;
+        if(!(p = getPiece(getStartCoords(tokens))).getType().getStringValue().equals(tokens[0]))
+            throw new IllegalArgumentException("Incorrect PieceType, moving piece should be: "+getPiece(getStartCoords(tokens)).getType().getStringValue());
+        if(p.checkValidMove(getDelta(tokens), this)){
+            p.setCoords(getDestCoords(tokens));
+            movePiece(getStartCoords(tokens), getDestCoords(tokens));
+        }
         return false;
     }
 }

@@ -31,6 +31,24 @@ public enum PieceType {
         return -1;
     }
 
+    public String getStringValue(){
+        switch(this){
+            case KING:
+                return "K";
+            case QUEEN:
+                return "Q";
+            case BISHOP:
+                return "B";
+            case KNIGHT:
+                return "N";
+            case ROOK:
+                return "R";
+            case PAWN:
+                return "";
+        }
+        return null;
+    }
+
     public static void forEach(TypeIterator t){
         t.forEach(PieceType.KING);
         t.forEach(PieceType.QUEEN);
